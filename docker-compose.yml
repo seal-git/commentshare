@@ -17,19 +17,6 @@ services:
     depends_on:
       - mysql
 
-  react:
-    image: react
-    container_name: react
-    build:
-      context: ./Dockerfiles
-      dockerfile: Dockerfile-react
-    ports:
-    - "10000:3000"
-    restart: on-failure
-    volumes:
-    - ./react:/workspace
-    tty: true
-
   mysql:
     image: mysql
     container_name: mysql
@@ -62,21 +49,23 @@ services:
       - SYS_NICE
 
   https:
-      image: steveltn/https-portal:1
-      container_name: https
-      ports:
-        - '80:80'
-        - '443:443'
-      environment:
-        DOMAINS: 'localhost -> react:3000'
-        STAGE: 'local'
-        # STAGE: 'production' # Don't use production until staging works
-        # FORCE_RENEW: 'true'
-      restart: on-failure
-      volumes:
-        - https-data:/var/lib/https-portal
-      depends_on:
-        - flask
+    image: steveltn/https-portal:1
+    container_name: https
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAINS: 'commentshare.work -> flask:5000'
+      # STAGE: 'local'
+      # STAGE: 'staging'
+      STAGE: 'production'
+      # Don't use production until staging works
+      # FORCE_RENEW: 'true
+    restart: on-failure
+    volumes:
+      - https-data:/var/lib/https-portal
+    depends_on:
+      - flask
 volumes:
     mysql-data:
     https-data:
