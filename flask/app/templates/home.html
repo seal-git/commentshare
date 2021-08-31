@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>使い方の説明</h1>
+
+    <div class="pdf-list-area">
+	    <h1>最近追加されたPDF</h1>
+	    {% for pdf in pdfs %}
+	        <li><a href=#
+                    class='pdf-list'
+                    pdf-url={{ pdf.url }}
+                    pdf-id={{ pdf.id }}>
+	         {%print(pdf.filename)%}
+	        </a></li>
+	    {% endfor %}
+    </div>
+
+<script>
+//pdf-listクラスにリンクを追加
+const URLJoin = (...args) =>
+  args
+    .join('/')
+    .replace(/[\/]+/g, '/')
+    .replace(/^(.+):\//, '$1://')
+    .replace(/^file:/, 'file:/')
+    .replace(/\/(\?|&|#[^!])/g, '$1')
+    .replace(/\?/g, '&')
+    .replace('&', '?');
+
+window.onload = $('.pdf-list').on('click', function(){
+    let pdf_url =  $(this).attr("pdf-url");
+    let pdf_id =  $(this).attr("pdf-id");
+    window.location.href = URLJoin('/read_pdf','?file='+pdf_url, '?id='+pdf_id)
+});
+</script>
+
+<style>
+html, body{font-size:100%}
+.content{background-image: url(./static/htmlimage/Comment%20Share.png)}
+.pdf-list-area{
+	background-color:white;
+	display:table
+	}
+.pdf-list{
+	color:"#006600";
+	font-size:150%;
+}
+</style>
+
+
+
+
+{% endblock content %}
+
