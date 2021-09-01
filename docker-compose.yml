@@ -29,6 +29,8 @@ services:
     volumes:
     - ./react:/workspace
     tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 
   mysql:
     image: mysql
