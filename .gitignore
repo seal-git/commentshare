@@ -8,3 +8,5 @@ __init__.pyc
 .env
 mysql/db/*
 .DS_Store
+react/node_modules
+react/build
