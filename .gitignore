@@ -10,4 +10,3 @@ mysql/db/*
 .DS_Store
 react/node_modules
 react/build
-react/.storybook
