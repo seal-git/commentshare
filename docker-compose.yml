@@ -34,21 +34,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - SKIP_PREFLIGHT_CHECK=true
 
-#  story:
-#    image: story
-#    container_name: story
-#    build:
-#      context: ./Dockerfiles
-#      dockerfile: Dockerfile-story
-#    ports:
-#    - "6006:6006"
-#    restart: on-failure
-#    volumes:
-#    - ./react:/workspace
-#    tty: true
-#    environment:
-#      - SKIP_PREFLIGHT_CHECK=true
-
   mysql:
     image: mysql
     container_name: mysql
