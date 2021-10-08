@@ -9,5 +9,5 @@ export default {
 const Template = (args) => <PanelText {...args} />;
 export const Basic = Template.bind({});
 Basic.args = {
-  text: 'bbb'
+  text: 'aabbb'
 }

@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button} from "./Button";
+import {css} from "@emotion/react";
 
-const style = {
-    color: 'red',
-    fontsize: '16pt'
-}
+const myStyle = css`
+  background-color: #1ea7fd;
+  color: red;
+  font-size: 20pt;
+`;
 
 function PanelText(props) {
 
     return (
-        <div style={style}><p>{props.text}</p></div>
+        <div css={myStyle}>{props.text}</div>
     )
 }
 
