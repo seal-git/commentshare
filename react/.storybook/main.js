@@ -8,14 +8,6 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/preset-create-react-app"
   ],
-  // babel: async (options) => ({
-  //   ...options,
-  //   presets: [...options.presets, '@emotion/babel-preset-css-prop']
-  // })
-  // babel: (config) => {
-  //   config.presets.push(require.resolve("@emotion/babel-preset-css-prop"));
-  //   return config;
-  // },
   webpackFinal: (config) => {
     config.module.rules.push({
       test: /\.(js|jsx)$/,
