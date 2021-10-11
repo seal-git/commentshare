@@ -9,17 +9,15 @@ export default {
 const Template = (args) => <SearchPanel {...args} />;
 export const Sample = Template.bind({});
 Sample.args = {
+  label: 'sample',
   style: css`
-    width: 200px;
     height: 40px;
-    background-color: black;
   `
 }
 export const Basic = Template.bind({});
 Basic.args = {
+  label: 'basic',
   style: css`
-    width: 200px;
     height: 40px;
-    background-color: black;
   `
 }

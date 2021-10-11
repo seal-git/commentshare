@@ -2,15 +2,37 @@ import React from 'react';
 import {ReactComponent as Icon} from '../assets/upload-icon.svg';
 import {css} from "@emotion/react";
 
+const TemplateStyle = css`
+  svg{
+    height: 100%;
+    width: auto;
+    fill: white;
+  }
+  height: 100%;
+`
+const SampleStyle = css`
+  ${TemplateStyle};
+  background-color: aqua;
+  svg {
+    background-color: red;
+  }
+`;
+const BasicStyle = css`
+  ${TemplateStyle};
+  background-color: black;
+`;
+
 function UploadIcon(props) {
-    const myStyle = css`
+    let myStyle;
+    if(props.label === 'sample'){
+        myStyle = SampleStyle;
+    }else if(props.label === 'basic'){
+        myStyle = BasicStyle;
+    }
+    myStyle = css`
+      ${myStyle};
       ${props.style};
-      svg{
-        height: 100%;
-        width: auto;
-        fill: white;
-      }
-    `;
+    `
 
     return (
         <div css={myStyle}>

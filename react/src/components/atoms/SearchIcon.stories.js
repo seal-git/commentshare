@@ -10,10 +10,16 @@ const Template = (args) => <SearchIcon {...args}/>;
 
 export const Sample = Template.bind({});
 Sample.args = {
-  label: 'sample'
+  label: 'sample',
+  style: css`
+    height: 24px;
+  `
 }
 
 export const Basic = Template.bind({});
 Basic.args = {
-  label: 'basic'
+  label: 'basic',
+  style: css`
+    height: 24px;
+  `
 }

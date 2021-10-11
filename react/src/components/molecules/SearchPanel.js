@@ -4,11 +4,7 @@ import PropTypes from "prop-types";
 import PanelText from "../atoms/PanelText";
 import SearchIcon from '../atoms/SearchIcon';
 
-
-
-
-function SearchPanel(props) {
-    const myStyle = css`
+const TemplateStyle = css`
       height: 100%;
       display: flex;
       justify-content: flex-start;
@@ -16,22 +12,39 @@ function SearchPanel(props) {
       gap: 10px;
       padding: 10px;
       box-sizing: border-box;
+`
+const SampleStyle = css`
+  ${TemplateStyle};
+  background-color: bisque;
+`;
+const BasicStyle = css`
+  ${TemplateStyle};
+  background-color: black;
+`;
+
+function SearchPanel(props) {
+
+    let myStyle;
+    if(props.label === 'sample'){
+        myStyle = SampleStyle;
+    }else if(props.label === 'basic'){
+        myStyle = BasicStyle;
+    }
+    myStyle = css`
+      ${myStyle};
       ${props.style};
-    `;
-    const textStyle= css`
-      color: white;
-      font-size: 20px;
-    `;
+    `
 
     return (
         <div css={myStyle}>
             <SearchIcon label={props.label}/>
-            <PanelText text={'Search'} style={textStyle}/>
+            <PanelText text={'Search'} label={props.label}/>
         </div>
     )
 }
 SearchPanel.propTypes = {
-    label: PropTypes.oneOf(['sample', 'basic'])
+    label: PropTypes.oneOf(['sample', 'basic']),
+    style: PropTypes.string,
 }
 
 SearchPanel.defaultProps = {

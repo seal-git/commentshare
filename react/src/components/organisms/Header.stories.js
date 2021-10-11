@@ -9,13 +9,13 @@ export default {
 const Template = (args) => <Header {...args} />;
 export const Sample = Template.bind({});
 Sample.args = {
+  label: 'sample',
   style: css`
-    background-color: black;
   `
 }
 export const Basic = Template.bind({});
 Basic.args = {
+  label: 'basic',
   style: css`
-    background-color: black;
   `
 }

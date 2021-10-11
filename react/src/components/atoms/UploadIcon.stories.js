@@ -7,19 +7,17 @@ export default {
   component: UploadIcon,
 };
 const Template = (args) => <UploadIcon {...args}/>;
-export const Basic = Template.bind({});
-Basic.args = {
+export const Sample = Template.bind({});
+Sample.args = {
+  label: 'sample',
   style: css`
-    width: 100px;
-    height: 100px;
-    background-color: black;
+    height: 24px;
   `
 }
-export const Small = Template.bind({});
-Small.args = {
+export const Basic = Template.bind({});
+Basic.args = {
+  label: 'basic',
   style: css`
-    width: 24px;
     height: 24px;
-    background-color: black;
   `
 }

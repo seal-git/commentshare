@@ -8,12 +8,18 @@ export default {
   component: PanelText,
 };
 const Template = (args) => <PanelText {...args} />;
+export const Sample = Template.bind({});
+Sample.args = {
+  label: 'sample',
+  text: 'sample',
+  style: css`
+    p{
+      background-color: aquamarine;
+    }
+  `,
+}
 export const Basic = Template.bind({});
 Basic.args = {
-  text: 'aabbb',
-  style: css`
-    color: aliceblue;
-    font-size: 20px;
-    background-color: black;
-  `,
+  label: 'basic',
+  text: 'basic',
 }

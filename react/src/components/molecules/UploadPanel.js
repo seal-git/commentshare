@@ -5,40 +5,49 @@ import PropTypes from 'prop-types';
 import PanelText from "../atoms/PanelText";
 import UploadIcon from '../atoms/UploadIcon';
 
-function UploadPanel(props) {
-    const myStyle = css`
-      ${props.style};
+const TemplateStyle = css`
       height: 100%;
       display: flex;
+      justify-content: flex-start;
       align-items: center;
+      gap: 10px;
       padding: 10px;
       box-sizing: border-box;
-    `;
-    const iconStyle = css`
-      height: 100%;
-      width: auto;
-      margin-right: 5px;
-    `;
-    const textStyle= css`
-      color: white;
-      font-size: 20px;
-    `;
+`
+const SampleStyle = css`
+  ${TemplateStyle};
+  background-color: coral;
+`;
+const BasicStyle = css`
+  ${TemplateStyle};
+  background-color: black;
+`;
 
+function UploadPanel(props) {
+    let myStyle;
+    if(props.label === 'sample'){
+        myStyle = SampleStyle;
+    }else if(props.label === 'basic'){
+        myStyle = BasicStyle;
+    }
+    myStyle = css`
+      ${myStyle};
+      ${props.style};
+      `
     return (
         <div css={myStyle}>
-            <UploadIcon style={iconStyle}/>
-            <PanelText text={'Upload'} style={textStyle}/>
+            <UploadIcon label={props.label}/>
+            <PanelText text={'Upload'} label={props.label}/>
         </div>
     )
 }
 UploadPanel.propTypes = {
+    label: PropTypes.oneOf(['sample', 'basic']),
     style: PropTypes.string,
 }
 
 UploadPanel.defaultProps = {
-    style: css`
-      background-color: blue;
-    `
+    label: 'basic'
 }
 
 
