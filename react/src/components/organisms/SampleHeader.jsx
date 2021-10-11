@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Button } from '../atoms/Button';
-import './header.css';
+import './sample-header.css';
 
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }) => (
+export const SampleHeader = ({ user, onLogin, onLogout, onCreateAccount }) => (
   <header>
     <div className="wrapper">
       <div>
@@ -40,13 +40,13 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }) => (
   </header>
 );
 
-Header.propTypes = {
+SampleHeader.propTypes = {
   user: PropTypes.shape({}),
   onLogin: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   onCreateAccount: PropTypes.func.isRequired,
 };
 
-Header.defaultProps = {
+SampleHeader.defaultProps = {
   user: null,
 };

@@ -1,3 +1,4 @@
-FROM node:16.3.0
+FROM node:16
 WORKDIR /workspace
 CMD yarn install && yarn storybook --quiet & yarn start
+#CMD yarn install && yarn start
