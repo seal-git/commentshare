@@ -4,9 +4,10 @@ import UploadPanel from "../molecules/UploadPanel";
 import SearchPanel from "../molecules/SearchPanel";
 
 const TemplateStyle = css`
-      display: flex;
-      width: 100%;
-      height: 40px;
+  display: flex;
+  width: 100%;
+  height: 40px;
+  gap: 10px;
 `
 const SampleStyle = css`
   ${TemplateStyle};
@@ -19,9 +20,9 @@ const BasicStyle = css`
 
 function Header(props) {
     let myStyle;
-    if(props.label === 'sample'){
+    if (props.label === 'sample') {
         myStyle = SampleStyle;
-    }else if(props.label === 'basic'){
+    } else if (props.label === 'basic') {
         myStyle = BasicStyle;
     }
     myStyle = css`
