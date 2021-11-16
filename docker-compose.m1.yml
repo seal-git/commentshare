@@ -37,7 +37,7 @@ services:
     container_name: mysql
     build:
       context: ./Dockerfiles
-      dockerfile: Dockerfile-mysql
+      dockerfile: Dockerfile-mysql.m1
     restart: on-failure
     hostname: my-mysql
     env_file:
