@@ -1,8 +1,8 @@
 version: '3'
 services:
   flask:
-    image: flask
-    container_name: flask
+    image: csb
+    container_name: csb
     build:
       context: ./Dockerfiles
       dockerfile: Dockerfile-flask
@@ -15,26 +15,28 @@ services:
 #    - /etc/passwd:/etc/passwd:ro #read only
     tty: true
     depends_on:
-      - mysql
+      - csd
 
   react:
-    image: react
-    container_name: react
+    image: csf
+    container_name: csf
     build:
       context: ./Dockerfiles
       dockerfile: Dockerfile-react
     ports:
     - "10000:3000"
+    - "6006:6006"
     restart: on-failure
     volumes:
     - ./react:/workspace
     tty: true
     environment:
       - CHOKIDAR_USEPOLLING=true
+      - SKIP_PREFLIGHT_CHECK=true
 
   mysql:
-    image: mysql
-    container_name: mysql
+    image: csd
+    container_name: csd
     build:
       context: ./Dockerfiles
       dockerfile: Dockerfile-mysql.m1
@@ -65,7 +67,7 @@ services:
 
   https:
       image: steveltn/https-portal:1
-      container_name: https
+      container_name: csw
       ports:
         - '80:80'
         - '443:443'
@@ -78,7 +80,7 @@ services:
       volumes:
         - https-data:/var/lib/https-portal
       depends_on:
-        - flask
+        - csb
 volumes:
     mysql-data:
     https-data:
