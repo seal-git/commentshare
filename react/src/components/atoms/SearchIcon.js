@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 
 import {ReactComponent as Icon} from '../assets/search-icon.svg';
 
-//TODO: Iconコンポーネントにまとめるか検討
-// propはicon, label, style?
+//TODO: Iconコンポーネントにまとめる
 
 const TemplateStyle = css`
   svg {
