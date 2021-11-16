@@ -3,13 +3,20 @@ https://commentshare.work
 ## ローカルの起動方法
 docker-compose.ymlのあるリポジトリで
 ```
-docker-compose build
-docker-compose up
+docker-compose up --build 
+```
+m1 macを使っている人は
+
+```
+docker-compose up --build -f docker-compose.m1.yml
 ```
 バックグラウンドで起動する場合はupに-dオプションを付ける。
-`flask` `react` `mysql` `https`コンテナ`がそれぞれ起動する。コンテナに入るには、
+
+`csb` `csf` `csd` `csw`コンテナ`がそれぞれ起動する。(それぞれCommentShare-Back, Front, Database, Webの意味)
+
+コンテナに入るには、
 ```
-docker exec -it flask bash
+docker exec -it csb bash
 ```
 ctrl+p+qで外に出れる。
 
@@ -17,5 +24,5 @@ ctrl+p+qで外に出れる。
 
 コンテナを止めるときは、
 ```
-docker stop flask react mysql https
+docker stop csb csf csd csw
 ```
