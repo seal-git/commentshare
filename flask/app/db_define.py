@@ -52,3 +52,15 @@ class Comment(db_.Model):
         return "comment('{}', '{}','{}','{}','{}','{}','{}','{}','{}')".format(
             self.id, self.value, self.pdf_id, self.user_id, self.user_name,
             self.span_page, self.span_left, self.span_top, self.created)
+
+
+
+class Follow(db_.Model):
+    __tablename__ = 'Follow'
+    id = db_.Column(db_.Integer, primary_key=True, autoincrement=True)
+    follow_from = db_.Column(db_.Integer, nullable=False)
+    follow_to   = db_.Column(db_.Integer, nullable=False)
+
+    def __repr__(self):
+        return "Follow('{}', '{}','{}')".format(
+            self.id, self.follow_from,self.follow_to)
