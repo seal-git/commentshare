@@ -9,6 +9,7 @@ function HomePage(props){
     return (
         <div >
             <Header label={props.label}/>
+            home
         </div>
     );
 }
