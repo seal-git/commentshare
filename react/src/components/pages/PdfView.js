@@ -4,19 +4,16 @@ import{
     Link
 } from "react-router-dom";
 import Header from "../organisms/Header.js";
+import PdfView from "../organisms/PdfView";
 
 const BasicStyle = css`
 `
 
 function PdfViewPage(props){
-    let { pdfId } = useParams()
     return (
         <div >
             <Header label={props.label}/>
-            <p>PdfView(pdfId:{pdfId})</p>
-            <Link to={"/pdf"}>
-                back to list
-            </Link>
+            <PdfView label={props.label}/>
         </div>
     );
 }
