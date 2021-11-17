@@ -10,7 +10,7 @@ import pytz
 from sqlalchemy import and_
 from flask_login import login_user, current_user, logout_user, login_required
 
-UPLOAD_FOLDER = './flask/static/pdf_files'
+UPLOAD_FOLDER = '/workspace/app/static/pdf_files/'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -255,13 +255,15 @@ def get_pdf():
     id=result['pdf_id']
     pdf = db_.session.query(PDF).filter(PDF.id==id).one()
     pdf_s = dict()
-    pdf_s['filename']=pdf['filename']
-    pdf_s['path']='naist_exam.pdf'
-    path=UPLOAD_FOLDER + pdf['path']
-    with open(path) as f:
-        data_encode_bytes = base64.b64encode(f)
-        data_encode_str = data_encode_bytes.decode('utf-8')
+    pdf_s['filename']=pdf.filename
+    pdf_s['path']=os.path.join(UPLOAD_FOLDER,(pdf.url))
+    datafile=open(pdf_s['path'],'rb')
+    pdfdata=datafile.read()
+    data_encode_bytes = base64.b64encode(pdfdata)
+    data_encode_str = data_encode_bytes.decode('utf-8')
+    datafile.close()
     pdf_s['file']=data_encode_str
+    print('success')
     return json.dumps(pdf_s)
     
 
