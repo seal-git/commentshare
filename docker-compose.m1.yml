@@ -15,7 +15,7 @@ services:
 #    - /etc/passwd:/etc/passwd:ro #read only
     tty: true
     depends_on:
-      - csd
+      - mysql
 
   react:
     image: csf
@@ -80,7 +80,7 @@ services:
       volumes:
         - https-data:/var/lib/https-portal
       depends_on:
-        - csb
+        - flask
 volumes:
     mysql-data:
     https-data:
