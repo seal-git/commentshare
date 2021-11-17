@@ -41,5 +41,21 @@ if init_all:
 
     db_.session.add_all(init_user_list)
     db_.session.commit()
+
+
+    data_list = [[1,2],
+                 [2,1],
+            ]
+    init_follow_list = []
+    for data in data_list:
+        init_follow = Follow()
+        init_follow.follow_from = data[0]
+        init_follow.follow_to= data[1]
+        init_follow_list.append(init_follow)
+
+    db_.session.add_all(init_follow)
+    db_.session.commit()
+
+
 else:
     db_.create_all()
