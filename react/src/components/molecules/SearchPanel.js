@@ -1,8 +1,8 @@
 import React from 'react';
 import {css} from "@emotion/react";
 import PropTypes from "prop-types";
-import PanelText from "../atoms/PanelText";
-import SearchIcon from '../atoms/SearchIcon';
+import Text from "../atoms/Text";
+import SvgIcons from '../atoms/SvgIcons';
 
 const TemplateStyle = css`
       height: 100%;
@@ -12,22 +12,21 @@ const TemplateStyle = css`
       gap: 10px;
       padding: 10px;
       box-sizing: border-box;
+
+      height: 50px;
+      background: white;
 `
-const SampleStyle = css`
-  ${TemplateStyle};
-  background-color: bisque;
-`;
+
 const BasicStyle = css`
   ${TemplateStyle};
-  background-color: black;
+
+
 `;
 
 function SearchPanel(props) {
 
     let myStyle;
-    if(props.label === 'sample'){
-        myStyle = SampleStyle;
-    }else if(props.label === 'basic'){
+    if(props.label === 'basic'){
         myStyle = BasicStyle;
     }
     myStyle = css`
@@ -37,13 +36,13 @@ function SearchPanel(props) {
 
     return (
         <div css={myStyle}>
-            <SearchIcon label={props.label}/>
-            <PanelText text={'Search'} label={props.label}/>
+            <SvgIcons label={'search'}/>
+            <Text text={'Search'} label={'nunitosans-semibold-black'}/>
         </div>
     )
 }
 SearchPanel.propTypes = {
-    label: PropTypes.oneOf(['sample', 'basic']),
+    label: PropTypes.oneOf(['basic']),
     style: PropTypes.string,
 }
 
@@ -53,3 +52,5 @@ SearchPanel.defaultProps = {
 
 
 export default SearchPanel;
+
+
