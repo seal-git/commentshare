@@ -1,10 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import Home from "./components/home";
 import React from "react";
 import {
     BrowserRouter as Router,
     Link,
+    Navigate,
     Route,
     Routes,
     useHistory
@@ -29,7 +29,7 @@ function App() {
                     <Route exact path='/' element={<HomePage label={"basic"}/>}/>
                     {/*<Route exact path='/upload' component={UploadPage}/>*/}
                     <Route exact path='/test' element={<TestPage label={"basic"}/>}/>
-                    <Route component={Home}/> {/*not foundの時*/}
+                    <Route path='/*' element={<Navigate to='/' />} />{/*not foundの時*/}
                 </Routes>
             </div>
         </Router>
