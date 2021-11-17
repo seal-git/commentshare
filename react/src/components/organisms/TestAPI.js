@@ -4,7 +4,7 @@ function TestAPI(props) {
     const onclickevent = () => {
         axios.post('/api/api_test', {data: "test"})
             .then(result => {
-                console.log('success')
+                console.log(result["data"])
             })
             .catch(error => {
                 console.log('error')
