@@ -1,7 +1,7 @@
 import {css} from "@emotion/react";
 import PropTypes from "prop-types";
 
-import Image from '../assets/paper-image.png';
+import Image from '../sample-data/paper-image.png';
 
 //TODO: Iconコンポーネントにまとめる
 
