@@ -14,17 +14,13 @@ import {ReactComponent as DirectMessageIcon} from '../assets/direct-message-icon
 
 const TemplateStyle = css`
   svg {
-    height: 100%;
+    height: 150%;
     width: auto;
-    fill: white;
+    fill: black;
   }
 
   height: 100%;
 
-
-  svg {
-    background-color: #1E2530;
-  }
 `
 
 const SearchStyle = css`
