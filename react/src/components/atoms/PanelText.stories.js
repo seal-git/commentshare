@@ -1,6 +1,6 @@
 import React from 'react';
 import PanelText from "./PanelText";
-import {Button} from "./Button";
+import Button from "./Button";
 import {css} from '@emotion/react';
 
 export default {
