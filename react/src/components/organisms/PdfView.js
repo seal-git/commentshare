@@ -10,7 +10,7 @@ function PdfView(props){
         <div >
             <p>PdfView(pdfId:{pdfId})</p>
             <Link to={"/pdf"}>
-                back to list
+                back to list111
             </Link>
             <Document
                 file={samplePDF}
