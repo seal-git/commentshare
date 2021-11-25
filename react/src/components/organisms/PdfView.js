@@ -15,7 +15,7 @@ function PdfView(props){
             <Document
                 file={samplePDF}
                 options={{
-                    cMapUrl: 'cmaps/',
+                    cMapUrl: 'https://localhost/cmaps/',
                     cMapPacked: true,
                 }}
             >

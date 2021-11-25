@@ -1,4 +1,5 @@
 const CopyPlugin = require("copy-webpack-plugin")
+
 module.exports = {
     babel: {
         presets: ['@emotion/babel-preset-css-prop']
@@ -10,12 +11,12 @@ module.exports = {
                     patterns: [
                         {
                             from: 'node_modules/pdfjs-dist/cmaps/',
-                            to: 'cmaps/'
+                            to: 'public/cmaps/'
                         },
                     ],
                 }),
             ]
-        }
-    }
+        },
+    },
 
 }
