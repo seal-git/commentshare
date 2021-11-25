@@ -10,12 +10,12 @@ function PdfView(props){
         <div >
             <p>PdfView(pdfId:{pdfId})</p>
             <Link to={"/pdf"}>
-                back to list111
+                back to list
             </Link>
             <Document
                 file={samplePDF}
                 options={{
-                    cMapUrl: 'cmaps/',
+                    cMapUrl: 'https://localhost/cmaps/',
                     cMapPacked: true,
                 }}
             >
