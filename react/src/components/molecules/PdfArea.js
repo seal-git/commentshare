@@ -7,13 +7,13 @@ import PdfComment from "./PdfComment";
 const TemplateStyle = css`
   background: coral;
   padding: 10px;
-  .pdf-area{
+
+  .pdf-area {
     position: relative;
   }
 
   canvas {
     margin: auto;
-
   }
 `
 
@@ -24,11 +24,18 @@ const BasicStyle = css`
 function PdfArea(props) {
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
+    const [pageHeight, setPageHeight] = useState(null);
+    const [pageWidth, setPageWidth] = useState(null);
 
-    function onDocumentLoadSuccess({numPages}) {
+    const onDocumentLoadSuccess = async (pdf) => {
+        const numPages = pdf.numPages;
+        const page = await pdf.getPage(1);
         setNumPages(numPages);
         setPageNumber(1);
-    }
+        setPageHeight(page.view[3]);
+        setPageWidth(page.view[2]);
+        console.log(page.view)
+    };
 
     function changePage(offset) {
         setPageNumber(prevPageNumber => prevPageNumber + offset);
@@ -56,10 +63,13 @@ function PdfArea(props) {
                     }}
                     onLoadSuccess={onDocumentLoadSuccess}
                 >
-
                     <Page pageNumber={pageNumber}/>
+                    <PdfComment
+                        pageNumber={pageNumber}
+                        pageHeight={pageHeight}
+                        pageWidth={pageWidth}
+                    />
                 </Document>
-                <PdfComment pageNumber={pageNumber}/>
 
             </div>
             <div>

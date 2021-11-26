@@ -38,25 +38,23 @@ const tmpCommentList = [
     }
 ];
 
-const TemplateStyle = css`
-  background: bisque;
-  padding: 10px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-
-  canvas {
-    margin: auto;
-
-  }
-`
-
-const BasicStyle = css`
-  ${TemplateStyle};
-`
 
 function PdfComment(props) {
+    const TemplateStyle = css`
+      background: transparent;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      canvas{
+        background: rgba(30,0,30,0.3);
+        
+      }
+    `
+    const BasicStyle = css`
+      ${TemplateStyle};
+    `
     const [context, setContext] = useState(null)
     const [mousedown, setMousedown] = useState(false)
     const startX = useRef(null)
@@ -64,8 +62,9 @@ function PdfComment(props) {
 
 
     useEffect(() => {
-        const canvas = document.getElementById("pdf-comment");
+        let canvas = document.getElementById("pdf-comment");
         const canvas_ = canvas.getContext("2d");
+        console.log(props)
         setContext(canvas_)
     }, [])
 
@@ -78,15 +77,15 @@ function PdfComment(props) {
             let canvasY = canvas.getClientRects()[0]["y"]
             // console.log(
             //     "onmousemove",
-            //     event.pageX,
-            //     event.pageY,
+            //     event.nativeEvent.offsetX,
+            //     event.nativeEvent.offsetY,
             //     startX.current,
             //     startY.current,
-            //     startX.current - canvasX,
-            //     startY.current - canvasY,
-            //     event.pageX - startX.current,
-            //     event.pageY - startY.current
-            //     )
+            //     startX.current + 0.5,
+            //     startY.current + 0.5,
+            //     event.nativeEvent.offsetX - (startX.current + 0.5) ,
+            //     event.nativeEvent.offsetY - (startY.current + 0.5)
+            // )
             canvas_.clearRect(
                 0,
                 0,
@@ -94,20 +93,21 @@ function PdfComment(props) {
                 canvas.clientHeight
             )
             canvas_.strokeRect(
-                startX.current - canvasX,
-                startY.current - canvasY,
-                event.pageX - startX.current,
-                event.pageY - startY.current
+                startX.current + 0.5,
+                startY.current + 0.5,
+                event.nativeEvent.offsetX - (startX.current + 0.5) ,
+                event.nativeEvent.offsetY - (startY.current + 0.5)
             )
         }
     }
 
     function onmousedown(event) {
         setMousedown(true);
-        startX.current = event.pageX;
-        startY.current = event.pageY;
+        startX.current = event.nativeEvent.offsetX;
+        startY.current = event.nativeEvent.offsetY;
         const canvas = document.getElementById("pdf-comment");
         const canvas_ = canvas.getContext("2d");
+        console.log(props)
         let canvas_x = canvas.getClientRects()[0]["x"]
         let canvas_y = canvas.getClientRects()[0]["y"]
         canvas_.clearRect(
@@ -116,7 +116,7 @@ function PdfComment(props) {
             canvas.clientWidth,
             canvas.clientHeight
         )
-        // console.log("onousedown", event.pageX, event.pageY, canvas_x, canvas_y)
+        console.log("onousedown", event.nativeEvent.offsetX, event.nativeEvent.offsetY, canvas_x, canvas_y)
         canvas.addEventListener(
             "mousemove",
             onmousemove,
@@ -142,14 +142,21 @@ function PdfComment(props) {
     }
 
     return (
-        <div className={"comment-rect"}
-             css={BasicStyle}
-             onMouseDown={onmousedown}
-             onMouseUp={onmouseup}
-             onMouseMove={onmousemove}
-        >
-            <canvas id={'pdf-comment'}>
-            </canvas>
+        <div className={"comment-rect-wrapper"}>
+            <div className={"comment-rect"} css={`position: relative`}
+                 css={BasicStyle}
+                 onMouseDown={onmousedown}
+                 onMouseUp={onmouseup}
+                 onMouseMove={onmousemove}
+            >
+                <canvas
+                    id={'pdf-comment'}
+                    width={props.pageWidth}
+                    height={props.pageHeight}
+                >
+                </canvas>
+            </div>
+
         </div>
     )
 }
