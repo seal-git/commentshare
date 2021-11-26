@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Page, Document} from "react-pdf/dist/esm/entry.webpack";
 import {css} from "@emotion/react";
+import SendCommentLayer from "./SendCommentLayer";
 
 
 /*
@@ -57,14 +58,16 @@ function PdfComment(props) {
     `
     const [context, setContext] = useState(null)
     const [mousedown, setMousedown] = useState(false)
+    const [formVisible, setFormVisible] = useState("invisible")
     const startX = useRef(null)
     const startY = useRef(null)
+    const formX = useRef(null)
+    const formY = useRef(null)
 
 
     useEffect(() => {
         let canvas = document.getElementById("pdf-comment");
         const canvas_ = canvas.getContext("2d");
-        console.log(props)
         setContext(canvas_)
     }, [])
 
@@ -98,11 +101,13 @@ function PdfComment(props) {
                 event.nativeEvent.offsetX - (startX.current + 0.5) ,
                 event.nativeEvent.offsetY - (startY.current + 0.5)
             )
+            setFormVisible("moving");
         }
     }
 
     function onmousedown(event) {
         setMousedown(true);
+        setFormVisible("invisible");
         startX.current = event.nativeEvent.offsetX;
         startY.current = event.nativeEvent.offsetY;
         const canvas = document.getElementById("pdf-comment");
@@ -116,7 +121,7 @@ function PdfComment(props) {
             canvas.clientWidth,
             canvas.clientHeight
         )
-        console.log("onousedown", event.nativeEvent.offsetX, event.nativeEvent.offsetY, canvas_x, canvas_y)
+        console.log("onmousedown", event.nativeEvent.offsetX, event.nativeEvent.offsetY, canvas_x, canvas_y)
         canvas.addEventListener(
             "mousemove",
             onmousemove,
@@ -138,7 +143,16 @@ function PdfComment(props) {
         )
         startX.current = null;
         startY.current = null;
+        formX.current = event.nativeEvent.offsetX
+        formY.current = event.nativeEvent.offsetY
         setMousedown(false)
+        if(formVisible==="moving"){
+            setFormVisible("visible")
+            formX.current = event.nativeEvent.offsetX;
+            formY.current = event.nativeEvent.offsetY;
+        }else{
+            setFormVisible("invisible")
+        }
     }
 
     return (
@@ -156,6 +170,12 @@ function PdfComment(props) {
                 >
                 </canvas>
             </div>
+                <SendCommentLayer
+                    formVisible={formVisible}
+                    formX={formX.current}
+                    formY={formY.current}
+                />
+
 
         </div>
     )
