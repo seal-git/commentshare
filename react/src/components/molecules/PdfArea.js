@@ -1,14 +1,19 @@
 import React, {useState} from 'react';
-import samplePDF from "../sample-data/naist_exam.pdf";
+import samplePDF from "../sample-data/samplepdf.pdf";
 import {Page, Document} from "react-pdf/dist/esm/entry.webpack";
 import {css} from "@emotion/react";
+import PdfComment from "./PdfComment";
 
 const TemplateStyle = css`
   background: coral;
   padding: 10px;
-  canvas{
+  .pdf-area{
+    position: relative;
+  }
+
+  canvas {
     margin: auto;
-    
+
   }
 `
 
@@ -37,19 +42,26 @@ function PdfArea(props) {
         changePage(1);
     }
 
+
     return (
-        <div className={'pdf-area'} css={BasicStyle}>
-            <Document
-                file={samplePDF}
-                options={{
-                    cMapUrl: 'https://localhost/cmaps/',
-                    cMapPacked: true,
-                }}
-                onLoadSuccess={onDocumentLoadSuccess}
+        <div className={'content-area'} css={BasicStyle}>
+            <div className={'pdf-area'}
             >
 
-                <Page pageNumber={pageNumber}/>
-            </Document>
+                <Document
+                    file={samplePDF}
+                    options={{
+                        cMapUrl: 'https://localhost/cmaps/',
+                        cMapPacked: true,
+                    }}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                >
+
+                    <Page pageNumber={pageNumber}/>
+                </Document>
+                <PdfComment pageNumber={pageNumber}/>
+
+            </div>
             <div>
                 <p>
                     Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
