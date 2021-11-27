@@ -38,7 +38,7 @@ function SendCommentLayer(props) {
             button.setAttribute("disabled", true)
         }
         let textarea = document.getElementById("send-comment-textarea");
-        console.log(textarea)
+        // console.log(textarea)
         if (textarea !== null) {
             textarea.value = "";
         }
