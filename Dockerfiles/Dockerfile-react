@@ -1,4 +1,6 @@
 FROM node:16
 WORKDIR /workspace
-CMD yarn install && (yarn storybook --quiet & yarn start)
+CMD yarn install &&\
+cp node_modules/pdfjs-dist/cmaps public/ -r &&\
+(yarn storybook --quiet & yarn start)
 #CMD yarn install && yarn start
