@@ -1,0 +1,86 @@
+version: '3'
+services:
+  flask:
+    image: csb
+    container_name: csb
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-flask
+    restart: on-failure
+    ports:
+    - "10100:5000"
+    volumes:
+    - ./flask:/workspace
+#    - /etc/group:/etc/group:ro #read only
+#    - /etc/passwd:/etc/passwd:ro #read only
+    tty: true
+    depends_on:
+      - mysql
+
+  react:
+    image: csf
+    container_name: csf
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-react
+    ports:
+    - "10000:3000"
+    - "6006:6006"
+    restart: on-failure
+    volumes:
+    - ./react:/workspace
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - SKIP_PREFLIGHT_CHECK=true
+
+  mysql:
+    image: csd
+    container_name: csd
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-mysql.m1
+    restart: on-failure
+    hostname: my-mysql
+    env_file:
+      - .env
+    environment:
+#      MYSQL_USER: sample_user #新たにユーザーを作成する
+#      MYSQL_DATABASE: sample_db #新たにDBを作成する
+      TZ: "Asia/Tokyo"
+      BIND-ADDRESS: 0.0.0.0
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    # データを永続化させる場合
+    volumes:
+      # 初期データを投入するSQLが格納されているdir
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      # 永続化するときにマウントするdir(ホスト側は空のディレクトリをマウントしないと初期データは登録されない！)
+      - mysql-data:/var/lib/mysql
+    command:
+      --secure-file-priv="/docker-entrypoint-initdb.d"
+    tty: true
+    cap_add:
+      - SYS_NICE
+
+  https:
+      image: steveltn/https-portal:1
+      container_name: csw
+      ports:
+        - '80:80'
+        - '443:443'
+      environment:
+        DOMAINS: 'localhost -> react:3000'
+        STAGE: 'local'
+        # STAGE: 'production' # Don't use production until staging works
+        # FORCE_RENEW: 'true'
+      restart: on-failure
+      volumes:
+        - https-data:/var/lib/https-portal
+      depends_on:
+        - flask
+volumes:
+    mysql-data:
+    https-data:

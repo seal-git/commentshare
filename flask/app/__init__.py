@@ -10,12 +10,13 @@ app_ = Flask(__name__)
 bootstrap = Bootstrap(app_)
 app_.config.from_object('app.config.Config')
 db_ = SQLAlchemy(app_)
-# db_.init_app(app_)
+#db_.create_all()
 # db_.create_all()
 bcrypt = Bcrypt(app_)
 login_manager = LoginManager(app_)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+
 
 import app.db_init
 import app.routes

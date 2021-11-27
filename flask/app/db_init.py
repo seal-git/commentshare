@@ -1,9 +1,10 @@
+from sqlalchemy.sql.expression import _False
 from flask_sqlalchemy import SQLAlchemy
 from app import db_
 from app.db_define import *
 import bcrypt
 
-init_all = True  # dbの定義を変更した場合はTrueにして作り直す
+init_all = _False  # dbの定義を変更した場合はTrueにして作り直す
 if init_all:
     db_.drop_all() # dbを作り直す．dbを消したくない場合は注意．
 
@@ -19,7 +20,7 @@ if init_all:
     for data in data_list:
         init_pdf = PDF()
         init_pdf.filename = data[0]
-        init_pdf.url = 'static/pdf_files/'+data[0]+'.pdf'
+        init_pdf.url = data[0]+'.pdf'
         init_pdf.user_id = data[1]
         init_pdf_list.append(init_pdf)
 
@@ -41,5 +42,22 @@ if init_all:
 
     db_.session.add_all(init_user_list)
     db_.session.commit()
+
+
+
+    data_list = [[1,2],
+                 [2,1],
+            ]
+    init_follow_list = []
+    for data in data_list:
+        init_follow = Follow()
+        init_follow.follow_from = data[0]
+        init_follow.follow_to= data[1]
+        init_follow_list.append(init_follow)
+
+    db_.session.add_all(init_follow_list)
+    db_.session.commit()
+
+
 else:
     db_.create_all()

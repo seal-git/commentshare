@@ -42,13 +42,24 @@ class Comment(db_.Model):
     value = db_.Column(db_.String(400), nullable=False)
     pdf_id = db_.Column(db_.Integer, nullable=False, default=1)
     user_id = db_.Column(db_.Integer, nullable=False)
-    user_name = db_.Column(db_.String(20), nullable=False)
     span_page = db_.Column(db_.Integer, nullable=False)
     span_left = db_.Column(db_.Float, nullable=False)
     span_top = db_.Column(db_.Float, nullable=False)
     created = db_.Column(db_.DATETIME, default=datetime.now, nullable=False)
 
     def __repr__(self):
-        return "comment('{}', '{}','{}','{}','{}','{}','{}','{}','{}')".format(
-            self.id, self.value, self.pdf_id, self.user_id, self.user_name,
+        return "comment('{}', '{}','{}','{}','{}','{}','{}','{}')".format(
+            self.id, self.value, self.pdf_id, self.user_id,
             self.span_page, self.span_left, self.span_top, self.created)
+
+
+
+class Follow(db_.Model):
+    __tablename__ = 'Follow'
+    id = db_.Column(db_.Integer, primary_key=True, autoincrement=True)
+    follow_from = db_.Column(db_.Integer, nullable=False)
+    follow_to   = db_.Column(db_.Integer, nullable=False)
+
+    def __repr__(self):
+        return "Follow('{}', '{}','{}')".format(
+            self.id, self.follow_from,self.follow_to)
