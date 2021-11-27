@@ -1,6 +1,6 @@
 #!/bin/bash
 # GCEでdocker-composeコマンドが使えなかったため,それ用のdocker imageを使用
-docker stop flask mysql https
+docker stop csf csd csb csw
 cd commentshare
 git checkout production
 git fetch origin
