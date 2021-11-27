@@ -12,6 +12,10 @@ const TemplateStyle = css`
     position: relative;
   }
 
+  .react-pdf__Page__textContent {
+    user-select: none;
+  }
+
   canvas {
     margin: auto;
   }
@@ -63,12 +67,13 @@ function PdfArea(props) {
                     }}
                     onLoadSuccess={onDocumentLoadSuccess}
                 >
-                    <Page pageNumber={pageNumber}/>
-                    <PdfComment
-                        pageNumber={pageNumber}
-                        pageHeight={pageHeight}
-                        pageWidth={pageWidth}
-                    />
+                    <Page pageNumber={pageNumber}>
+                    </Page>
+                        <PdfComment
+                            pageNumber={pageNumber}
+                            pageHeight={pageHeight}
+                            pageWidth={pageWidth}
+                        />
                 </Document>
 
             </div>
