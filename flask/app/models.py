@@ -146,7 +146,7 @@ def get_follow():
     follow_from =json_data['user_id']
     follows = db_.session.query(Follow.follow_to ,User.username,User.profile
                                ).filter_by(follow_from=follow_from).join(User,User.id == Follow.follow_to).all()
-                            
+
     follow_list=list()
     if len(follows)>0:
         for i in range(len(follows)):
@@ -166,7 +166,7 @@ def follow_check():
     json_data = request.json
     follow_from =json_data['follow_from']
     follow_to =json_data['follow_to']
-    follows  = db_.session.query(Follow).filter_by(follow_to=follow_to).filter_by(follow_from=follow_from).first()                          
+    follows  = db_.session.query(Follow).filter_by(follow_to=follow_to).filter_by(follow_from=follow_from).first()
     if len(follows)>0:
            return True
 
@@ -218,7 +218,7 @@ def get_time_line():
     comments_list = json.dumps(comments_list,ensure_ascii=False)
     return comments_list
 
-                               
+
 
 
 
@@ -265,7 +265,7 @@ def get_pdf():
     pdf_s['file']=data_encode_str
     print('success')
     return json.dumps(pdf_s)
-    
+
 
 
 

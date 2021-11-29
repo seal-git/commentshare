@@ -62,7 +62,7 @@ function PdfArea(props) {
                 <Document
                     file={samplePDF}
                     options={{
-                        cMapUrl: 'https://localhost/cmaps/',
+                        cMapUrl: 'https://commentshare.work/cmaps/',
                         cMapPacked: true,
                     }}
                     onLoadSuccess={onDocumentLoadSuccess}
