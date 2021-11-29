@@ -4,15 +4,13 @@ services:
     image: csb
     container_name: csb
     build:
-      context: ./Dockerfiles
-      dockerfile: Dockerfile-flask
+      context: .
+      dockerfile: ./Dockerfiles/Dockerfile-flask
     restart: on-failure
     ports:
     - "10100:5000"
     volumes:
-    - ./flask:/workspace
-#    - /etc/group:/etc/group:ro #read only
-#    - /etc/passwd:/etc/passwd:ro #read only
+    - ./flask:/workspace # 開発中はmountする
     tty: true
     depends_on:
       - mysql
@@ -21,14 +19,14 @@ services:
     image: csf
     container_name: csf
     build:
-      context: ./Dockerfiles
-      dockerfile: Dockerfile-react
+      context: .
+      dockerfile: ./Dockerfiles/Dockerfile-react
     ports:
     - "10000:3000"
     - "6006:6006"
     restart: on-failure
     volumes:
-    - ./react:/workspace
+    - ./react:/workspace # 開発中はmountする
     tty: true
     environment:
       - CHOKIDAR_USEPOLLING=true
@@ -38,8 +36,8 @@ services:
     image: csd
     container_name: csd
     build:
-      context: ./Dockerfiles
-      dockerfile: Dockerfile-mysql
+      context: .
+      dockerfile: ./Dockerfiles/Dockerfile-mysql
     restart: on-failure
     hostname: my-mysql
     env_file:
