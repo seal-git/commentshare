@@ -21,8 +21,8 @@ services:
     image: csf
     container_name: csf
     build:
-      context: ./Dockerfiles
-      dockerfile: Dockerfile-react
+      context: .
+      dockerfile: ./Dockerfiles/Dockerfile-react
     ports:
     - "10000:3000"
     - "6006:6006"
