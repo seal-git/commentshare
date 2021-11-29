@@ -72,7 +72,7 @@ services:
       DOMAINS: 'commentshare.work -> flask:5000'
       # STAGE: 'local'
        STAGE: 'staging'
-#      STAGE: 'production'
+      # STAGE: 'production'
       # Don't use production until staging works
       # FORCE_RENEW: 'true
     restart: on-failure
