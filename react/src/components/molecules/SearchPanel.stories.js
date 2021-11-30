@@ -8,8 +8,11 @@ export default {
 };
 const Template = (args) => <SearchPanel {...args} />;
 
+export const Sample = Template.bind({});
+Sample.args = {
+  label: 'sample',
+}
 export const Basic = Template.bind({});
 Basic.args = {
   label: 'basic',
-  search_icon_css: css` `
 }

@@ -13,71 +13,84 @@ import {ReactComponent as DirectMessageIcon} from '../assets/direct-message-icon
 //TODO: Iconコンポーネントにまとめる
 
 const TemplateStyle = css`
-  svg {
-    height: 150%;
-    width: auto;
-    fill: black;
-  }
-
   height: 100%;
-
 `
 
-const SearchStyle = css`
+const Search_WhiteSytle = css`
   ${TemplateStyle};
+  svg {
+    fill: white;
+  }
 `;
 
-const TimelineStyle = css`
+const Timeline_WhiteStyle = css`
   ${TemplateStyle};
+  svg {
+    fill: white;
+  }
 `;
 
-const UploadStyle = css`
+const Upload_WhiteStyle = css`
   ${TemplateStyle};
+  svg {
+    fill: white;
+  }
 `;
 
-const NotificationsStyle = css`
+const Notifications_GrayStyle = css`
   ${TemplateStyle};
+  svg {
+    fill: gray;
+  }
 `;
 
-const DirectMessageStyle = css`
+const Direct_Message_GrayStyle = css`
   ${TemplateStyle};
+  svg {
+    fill: gray;
+  }
 `;
 
 
 function SvgIcons(props) {
     let myStyle;
-    if (props.label === 'timeline') {
-        myStyle = TimelineStyle;
-    } else if (props.label === 'search') {
-        myStyle = SearchStyle;
-    } else if (props.label === 'upload') {
-        myStyle = UploadStyle;
-    } else if (props.label === 'notifications') {
-        myStyle = NotificationsStyle;
-    } else if (props.label === 'direct-message') {
-        myStyle = DirectMessageStyle;
+    let icon;
+    if (props.label === 'timeline-white') {
+        myStyle = css`
+          ${Timeline_WhiteStyle};
+          ${props.style};
+        `
+        icon = <div css={myStyle}><TimelineIcon/></div>
+    } else if (props.label === 'search-white') {
+        myStyle = css`
+          ${Search_WhiteSytle};
+          ${props.style};
+        `
+        icon = <div css={myStyle}><SearchIcon/></div>
+    } else if (props.label === 'upload-white') {
+        myStyle = css`
+          ${Upload_WhiteStyle};
+          ${props.style};
+        `
+        icon = <div css={myStyle}><UploadIcon/></div>
+    } else if (props.label === 'notifications-gray') {
+        myStyle = css`
+          ${Notifications_GrayStyle};
+          ${props.style};
+        `
+        icon = <div css={myStyle}><NotificationsIcon/></div>
+    } else if (props.label === 'direct-message-gray') {
+        myStyle = css`
+          ${Direct_Message_GrayStyle};
+          ${props.style};
+        `
+        icon = <div css={myStyle}><DirectMessageIcon/></div>
     }
 
-    myStyle = css`
-      ${myStyle};
-      ${props.style};
-    `
 
     return (
         <div>
-	        {(() => {
-	          if (props.label === 'timeline') {
-	            return <div css={myStyle}><TimelineIcon/></div>
-	          } else if (props.label === 'search') {
-	            return <div css={myStyle}><SearchIcon/></div>
-	          } else if (props.label === 'upload') {
-	            return <div css={myStyle}><UploadIcon/></div>
-	          } else if (props.label === 'notifications') {
-	            return <div css={myStyle}><NotificationsIcon/></div>
-	          } else if (props.label === 'direct-message') {
-	            return <div css={myStyle}><DirectMessageIcon/></div>
-	          }
-	        })()}
+            {icon}
         </div>
     )
 
@@ -90,7 +103,13 @@ function SvgIcons(props) {
 }
 
 SvgIcons.propTypes = {
-    label: PropTypes.oneOf(['timeline','search','upload','notifications','direct-message']),
+    label: PropTypes.oneOf([
+        'timeline-white',
+        'search-white',
+        'upload-white',
+        'notifications-gray',
+        'direct-message-gray'
+    ]),
     style: PropTypes.string,
 }
 

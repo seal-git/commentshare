@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import PanelText from "../atoms/PanelText";
 import UploadIcon from '../atoms/UploadIcon';
+import SvgIcons from "../atoms/SvgIcons";
+import Text from "../atoms/Text";
 
 const TemplateStyle = css`
       height: 100%;
@@ -36,8 +38,8 @@ function UploadPanel(props) {
       `
     return (
         <div css={myStyle}>
-            <UploadIcon label={props.label}/>
-            <PanelText text={'Upload'} label={props.label}/>
+            <SvgIcons label="upload-white" />
+            <Text text={'Upload'} label="quicksand-medium-white"/>
         </div>
     )
 }
