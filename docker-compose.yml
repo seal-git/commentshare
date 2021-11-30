@@ -71,8 +71,8 @@ services:
     environment:
       DOMAINS: 'commentshare.work -> react:3000'
       # STAGE: 'local'
-      STAGE: 'staging'
-      # STAGE: 'production'
+      # STAGE: 'staging'
+      STAGE: 'production'
       # Don't use production until staging works
       # FORCE_RENEW: 'true
     restart: on-failure
