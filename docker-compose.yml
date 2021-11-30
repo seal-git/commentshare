@@ -69,7 +69,7 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      DOMAINS: 'commentshare.work -> flask:5000'
+      DOMAINS: 'commentshare.work -> react:3000'
       # STAGE: 'local'
       STAGE: 'staging'
       # STAGE: 'production'
