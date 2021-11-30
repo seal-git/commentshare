@@ -11,3 +11,4 @@ mysql/db/*
 react/node_modules
 react/build
 *.log
+react/public/cmaps
