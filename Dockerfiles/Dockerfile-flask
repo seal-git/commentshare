@@ -1,4 +1,8 @@
 FROM python:3.9.5
+WORKDIR /workspace
+
+# 本番環境ではマウントせずにコピーする
+COPY flask/ /workspace/
 
 RUN apt-get update &&\
  pip install --upgrade pip &&\
