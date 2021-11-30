@@ -1,5 +1,5 @@
 #!/bin/bash
-# GCEでdocker-composeコマンドが使えなかったため,それ用のdocker imageを使用
+# GCEでdocker-composeコマンドが使えなかったため,それ用のdocker imageを使用 
 docker stop csf csd csb csw
 cd commentshare
 git checkout production
