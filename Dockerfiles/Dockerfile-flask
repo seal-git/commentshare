@@ -9,6 +9,4 @@ RUN apt-get update &&\
  pip install pipenv &&\
  pip install --upgrade setuptools
 
-WORKDIR /workspace
-
 CMD pipenv install && pipenv install --system && python run.py
