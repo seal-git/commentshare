@@ -109,7 +109,7 @@ function Text(props) {
       ${props.style};
     `
     return (
-        <div css={myStyle}>{props.text}</div>
+        <span css={myStyle}>{props.text}</span>
     )
 }
 

@@ -27,10 +27,10 @@ function App() {
         <Router>
             <div className="App">
                 <Routes>
-                    <Route path='/' element={<HomePage label={"basic"}/>}/>
-                    <Route path='/test' element={<TestPage label={"basic"}/>}/>
-                    <Route path='/pdf' element={<PdfListPage label={"basic"}/>}/>
-                    <Route path='/pdf/:pdfId' element={<PdfViewPage label={"basic"}/>}/>
+                    <Route path='/' element={<HomePage />}/>
+                    <Route path='/test' element={<TestPage />}/>
+                    <Route path='/pdf' element={<PdfListPage/>}/>
+                    <Route path='/pdf/:pdfId' element={<PdfViewPage/>}/>
                     <Route path='/*' element={<Navigate to='/' />} />{/*not foundの時*/}
                 </Routes>
             </div>
