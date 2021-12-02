@@ -4,11 +4,12 @@ import profileImage from "../assets/profile_image.png"
 import {css} from "@emotion/react";
 
 function Comment(props) {
-    const TemplateStyle = css`
+    const wrapperStyle = css`
       border: 1px solid #333333;
       border-radius: 5px;
       background: white;
       padding: 5px;
+      max-width: 15rem;
     `;
     const 横flex = css`
       display: flex;
@@ -44,7 +45,7 @@ function Comment(props) {
     `
 
     return (
-        <div css={TemplateStyle}>
+        <div css={wrapperStyle}>
             <div css={横flex}>
                 <div>
                     <img src={profileImage}/>

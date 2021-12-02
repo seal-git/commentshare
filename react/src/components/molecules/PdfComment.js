@@ -72,16 +72,16 @@ function PdfComment(props) {
     const startY = useRef(null)
     const formX = useRef(-1000) //コメント送信フォームの表示位置x
     const formY = useRef(-1000) //コメント送信フォームの表示位置y
-    // const mouseX = useRef(null)
-    // const mouseY = useRef(null)
     const rect = useRef({
         "x": null,
         "y": null,
         "w": null,
         "h": null,
-    })
+    }) //描画中の四角形の情報
+
     useEffect(() => {
-        tmpCommentList.forEach(function(comment_){
+        // 初回描画時にコメントをロードする
+        tmpCommentList.forEach(function (comment_) {
             dispatch({
                 type: "add",
                 comment: comment_
@@ -89,6 +89,7 @@ function PdfComment(props) {
         })
     }, [])
     useEffect(() => {
+        // 毎回描画時にコメント部分をハイライトする(なぜか初回だけだと働かないので毎回やる)
         const canvas = document.getElementById("highlight-canvas");
         const context = canvas.getContext("2d");
         context.fillStyle = "rgba(0,0,255,0.1)"
@@ -114,7 +115,7 @@ function PdfComment(props) {
     }
 
     function draw(event) {
-        //マウスが動いてるときに描画する
+        //マウスを押しながら動かしたときに描画する
         setMouseX(event.offsetX);
         setMouseY(event.offsetY);
         if (mousedown.current === true) {
@@ -209,17 +210,24 @@ function PdfComment(props) {
         }
         console.log("onmouseup", event.nativeEvent.offsetX, event.nativeEvent.offsetY, canvas_x, canvas_y, mousedown.current)
     }
-    function popup(event){
-        //描画中でないならポップアップを表示する
-        if (mousedown.current !== true && formVisible!=="visible"){
-            setPopupVisible(true)
+
+    const timer = useRef(null);
+    function popup(event) {
+        //描画中でない時、マウスが0.1秒以上止まっていたらポップアップを表示する
+        if (mousedown.current !== true && formVisible !== "visible") {
+            clearTimeout(timer.current)
+            setPopupVisible(false)
+            timer.current = setTimeout(()=>{
+                setPopupVisible(true)
+            }, 250)
+
             let rect = document.getElementById("pdf-comment-wrapper").getBoundingClientRect()
             let pdfX = rect.left + window.pageXOffset;
             let pdfY = rect.top + window.pageYOffset;
             setMouseX(event.nativeEvent.pageX - pdfX)
             setMouseY(event.nativeEvent.pageY - pdfY)
             // console.log(mouseX, mouseY)
-        }else{
+        } else {
             setPopupVisible(false)
         }
     }
@@ -259,12 +267,12 @@ function PdfComment(props) {
                     setFormVisible={setFormVisible}
                 />
             </div>
-            <div className={"show-comment-layer-wrapper"} onMouseMove={onmousemove}>
+            <div className={"show-comment-layer-wrapper"}>
                 <ShowCommentLayer
-                    popupVisible = {popupVisible}
-                    setPopupVisible = {setPopupVisible}
-                    mouseX = {mouseX}
-                    mouseY = {mouseY}
+                    popupVisible={popupVisible}
+                    setPopupVisible={setPopupVisible}
+                    mouseX={mouseX}
+                    mouseY={mouseY}
                     commentList={commentList}
                 />
             </div>

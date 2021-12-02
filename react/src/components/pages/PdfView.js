@@ -5,16 +5,24 @@ import{
 } from "react-router-dom";
 import Header from "../organisms/Header.js";
 import PdfView from "../organisms/PdfView";
+import PropTypes from "prop-types";
 
-const BasicStyle = css`
-`
 
 function PdfViewPage(props){
     return (
         <div >
-            <Header label={props.label}/>
-            <PdfView label={props.label}/>
+            <Header sample={props.sample}/>
+            <PdfView sample={props.sample}/>
         </div>
     );
 }
+PdfViewPage.propTypes = {
+    sample: PropTypes.bool,
+    style: PropTypes.string,
+}
+
+PdfViewPage.defaultProps = {
+    sample: false,
+}
+
 export default PdfViewPage;

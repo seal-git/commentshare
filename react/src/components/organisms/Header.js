@@ -1,41 +1,95 @@
 import React from 'react';
 import {css} from "@emotion/react";
-import UploadPanel from "../molecules/UploadPanel";
-import SearchPanel from "../molecules/SearchPanel";
+import IconPanel from "../molecules/IconPanel";
+import Text from "../atoms/Text";
+import PropTypes from "prop-types";
+import SvgIcons from "../atoms/SvgIcons";
+import UserIconImage from "../atoms/UserIconImage";
 
-const TemplateStyle = css`
-  display: flex;
-  width: 100%;
-  height: 40px;
-  gap: 10px;
-`
-const SampleStyle = css`
-  ${TemplateStyle};
-  background-color: blueviolet;
-`;
-const BasicStyle = css`
-  ${TemplateStyle};
-  background-color: black;
-`;
 
 function Header(props) {
-    let myStyle;
-    if (props.label === 'sample') {
-        myStyle = SampleStyle;
-    } else if (props.label === 'basic') {
-        myStyle = BasicStyle;
-    }
-    myStyle = css`
-      ${myStyle};
+    // 各要素(div, Component)ごとにスタイルを設定する(classNameは使わない)
+    // storybookでボックスを色づけるサンプル表示のcssを設定する
+    // props.sampleがtrueの時に有効になる。storybookの"sample"というトグルボタンで切り替える。
+    let wrapperStyle = css`
+      height: 50px;
+      width: 100%;
+      min-width: 750px;
+      display: flex;
+      background: ${props.sample===true?"#00ff00":"black"};
+    `;
+    let leftWrapperStyle = css`
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      background: ${props.sample===true?"#ff0000":"none"};
+    `;
+    let rightWrapperStyle = css`
+      display: flex;
+      gap: 20px;
+      margin: 5px 0 5px 0;
+      padding-right: 20px;
+      background: ${props.sample===true?"#0000ff":"none"};
+    `;
+    let textWrapperStyle = css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding-right: 30px;
+      padding-left: 30px;
+      background: ${props.sample===true?"#00ffff":"none"};
+    `
+    let textStyle = css`
+      font-size: 1.5rem;
+      color: white;
+      background: ${props.sample===true?"#ff00ff":"none"};
+    `
+    let iconStyle = css`
+      svg{
+        padding: 2px;
+        border: 1px solid gray;
+        border-radius: 20px;
+      }
+      background: ${props.sample===true?"#ffff00":"none"};
+    `
+    let userIconStyle = css`
+      background: ${props.sample===true?"#ffff00":"none"};
+    `
+    wrapperStyle = css`
+      ${wrapperStyle};
       ${props.style};
     `
     return (
-        <div css={myStyle}>
-            <SearchPanel label={props.label}/>
-            <UploadPanel label={props.label}/>
+        <div css={wrapperStyle}>
+            <div css={leftWrapperStyle}>
+                <div css={textWrapperStyle}>
+                    <Text
+                        text={"Comment Share"}
+                        label={"nunuitosans-semibold-white"}
+                        style={textStyle}
+                    />
+                </div>
+                <IconPanel label="search" sample={props.sample}/>
+                <IconPanel label="upload" sample={props.sample}/>
+                <IconPanel label="timeline" sample={props.sample}/>
+            </div>
+            <div css={rightWrapperStyle}>
+                <SvgIcons label={"notifications-gray"} style={iconStyle}/>
+                <SvgIcons label={"direct-message-gray"} style={iconStyle}/>
+                <UserIconImage style={userIconStyle}/>
+            </div>
         </div>
     )
 }
 
+Header.propTypes = {
+    sample: PropTypes.bool,
+    style: PropTypes.string,
+}
+
+Header.defaultProps = {
+    sample: false,
+}
 
 export default Header;

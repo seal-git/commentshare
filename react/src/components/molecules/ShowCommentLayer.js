@@ -26,7 +26,8 @@ function ShowCommentLayer(props) {
         border: 15px solid transparent;
         border-right: 15px solid silver;
       }
-      .comment{
+
+      .comment {
         border: 1px solid #333333;
         background: #1ea7fd;
         margin: 5px;
@@ -55,13 +56,18 @@ function ShowCommentLayer(props) {
         } else {
             return false;
         }
+    };
+    let 座標上commentList = [];
+    if (props.popupVisible === true) {
+        座標上commentList = props.commentList.filter(
+            comment => is座標上のコメント(comment, props.mouseX, props.mouseY)
+        );
+        if (座標上commentList.length === 0) {
+            props.setPopupVisible(false);
+        }
     }
-
-    let 座標上commentList = props.commentList.filter(
-        comment => is座標上のコメント(comment, props.mouseX, props.mouseY)
-    )
-    if(座標上commentList.length === 0){
-        props.setPopupVisible(false);
+    if (座標上commentList.length > 0) {
+        console.log(座標上commentList)
     }
     let 表示用commentList = []
     if (props.mouseX !== null && props.mouseY !== null) {

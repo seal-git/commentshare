@@ -5,6 +5,8 @@ import {css} from "@emotion/react";
 const TemplateStyle = css`
   color: #000000;
   font-size: 30px;
+  height: 100%;
+  margin: 0;
 `
 
 const Quicksand_Medium_BlackStyle = css`
@@ -107,7 +109,7 @@ function Text(props) {
       ${props.style};
     `
     return (
-        <div css={myStyle}><p>{props.text}</p></div>
+        <span css={myStyle}>{props.text}</span>
     )
 }
 
