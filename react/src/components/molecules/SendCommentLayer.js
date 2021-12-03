@@ -8,7 +8,7 @@ import autosize from "autosize";
  */
 function SendCommentLayer(props) {
     const value = useRef(null);
-    const TemplateStyle = css`
+    let wrapperStyle = css`
       background: violet;
       position: absolute;
       top: ${props.formY}px;
@@ -21,15 +21,15 @@ function SendCommentLayer(props) {
         width: 100%;
       }
     `;
-    let BasicStyle;
+
     if (props.formVisible === "visible") {
         console.log("form visible", props.formX, props.formY)
         let textarea = document.getElementById("send-comment-textarea")
         if (textarea !== null) {
             textarea.focus({preventScroll: true});
         }
-        BasicStyle = css`
-          ${TemplateStyle};
+        wrapperStyle = css`
+          ${wrapperStyle};
           opacity: 1;
         `
     } else {
@@ -42,9 +42,8 @@ function SendCommentLayer(props) {
         if (textarea !== null) {
             textarea.value = "";
         }
-
-        BasicStyle = css`
-          ${TemplateStyle};
+        wrapperStyle = css`
+          ${wrapperStyle};
           opacity: 0;
         `
     }
@@ -104,7 +103,7 @@ function SendCommentLayer(props) {
 
 
     return (
-        <div css={BasicStyle}>
+        <div css={wrapperStyle}>
             <form
                 onSubmit={onsubmit}
                 onKeyDown={onkeydown}
