@@ -5,7 +5,7 @@ docker-compose.ymlのあるリポジトリで
 ```
 docker-compose up --build 
 ```
-m1 macを使っている人は 
+m1 macを使っている人は
 
 ```
 docker-compose up --build -f docker-compose.m1.yml
