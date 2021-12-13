@@ -19,7 +19,7 @@ class User(db_.Model, UserMixin):
 
 class PDF(db_.Model):
     __tablename__ = 'PDF'
-    id = db_.Column(db_.Integer, primary_key=True, autoincrement=True)
+    id = db_.Column(db_.String(100), primary_key=True,)
     filename = db_.Column(db_.String(100), nullable=False,)
     url = db_.Column(db_.String(100), nullable=False,)
     user_id = db_.Column(db_.Integer, nullable=False)
@@ -37,14 +37,19 @@ class PDF(db_.Model):
 
 
 class Comment(db_.Model):
+    # TODO: rect_commentとspan_commentに分けるか検討(span_commentの実装後)
     __tablename__ = 'Comment'
     id = db_.Column(db_.Integer, primary_key=True, autoincrement=True)
     value = db_.Column(db_.String(400), nullable=False)
-    pdf_id = db_.Column(db_.Integer, nullable=False, default=1)
+    pdf_id = db_.Column(db_.String(100), nullable=False, default=1)
     user_id = db_.Column(db_.Integer, nullable=False)
     span_page = db_.Column(db_.Integer, nullable=False)
-    span_left = db_.Column(db_.Float, nullable=False)
-    span_top = db_.Column(db_.Float, nullable=False)
+    span_left = db_.Column(db_.Float, nullable=True)
+    span_top = db_.Column(db_.Float, nullable=True)
+    rect_x = db_.Column(db_.Float, nullable=True)
+    rect_y = db_.Column(db_.Float, nullable=True)
+    rect_w = db_.Column(db_.Float, nullable=True)
+    rect_h = db_.Column(db_.Float, nullable=True)
     created = db_.Column(db_.DATETIME, default=datetime.now, nullable=False)
 
     def __repr__(self):

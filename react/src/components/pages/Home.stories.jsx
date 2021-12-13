@@ -1,7 +1,7 @@
 import React from 'react';
 import {MemoryRouter} from "react-router-dom";
 import {css} from "@emotion/react";
-import HomePage from "./Home";
+import HomePage from "./HomePage";
 
 export default {
     title: 'components/pages/Home',

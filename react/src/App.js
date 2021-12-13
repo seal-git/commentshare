@@ -11,9 +11,9 @@ import {
 // import {createBrowserHistory} from "history";
 // import UploadPage from './components/pages/Upload.js'
 import TestPage from './components/pages/Test.js'
-import HomePage from './components/pages/Home.js'
-import PdfListPage from "./components/pages/PdfList";
-import PdfViewPage from "./components/pages/PdfView";
+import HomePage from './components/pages/HomePage.js'
+import PdfListPage from "./components/pages/PdfListPage";
+import PdfViewPage from "./components/pages/PdfViewPage";
 
 function App() {
     // const myHistory = createBrowserHistory(

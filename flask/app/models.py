@@ -23,56 +23,68 @@ def api_test():
     return {"text":"success"}
 
 
-@app_.route('/add_comments', methods=['POST','GET'])
-def add_comments():
-    print(os.getcwd())
+@app_.route('/add_comment', methods=['POST','GET'])
+def add_comment():
     if request.method == 'POST':
         result = request.get_json()
-        print(result)
+        result = result["data"]
         if current_user.is_active:
             user_id = current_user.id
         else:
-            user_id = "-1"
-
+            user_id = 1
+        time = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
         comment = Comment(
             value=result['value'],
             user_id=user_id,
             pdf_id=result['pdf_id'],
-            span_page=result['span-page'],
-            span_top=result['span-top'],
-            span_left=result['span-left'],
-            created=datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
+            span_page=result['span_page'],
+            # span_top=result['span_top'],
+            # span_left=result['span_left'],
+            rect_x=result["rect_x"],
+            rect_y=result["rect_y"],
+            rect_w=result["rect_w"],
+            rect_h=result["rect_h"],
+            created=time
             )
         db_.session.add(comment)
         db_.session.commit()
+        result = {"result": "success",
+                  "time": str(time)}
+        result = json.dumps(result, ensure_ascii=False)
+        return result
 
-    return "success"
 
-
-@app_.route('/get_comments', methods=['POST','GET'])
-def get_comments():
+@app_.route('/get_comment', methods=['POST','GET'])
+def get_comment():
     print(os.getcwd())
     param = request.get_json()
-    pdf_id=int(param["pdf_id"])
-    comments = db_.session.query(Comment,User.username).filter_by(pdf_id=pdf_id).join(User,User.id==Comment.user_id).all()
+    param = param["data"]
+    pdf_id=param["pdf_id"]
+    comments = db_.session.query(Comment,User.username)\
+        .filter_by(pdf_id=pdf_id)\
+        .join(User,User.id==Comment.user_id)\
+        .all()
     length=len(comments)
     comments_list=list()
     for i in range(length):
         dict={}
-        dict['id']=comments[i].id
-        dict['name']=comments[i].user_name
-        dict['value']=comments[i].value
-        dict['span-page']=str(comments[i].span_page)
-        dict['span-top']=comments[i].span_top
-        dict['span-left']=comments[i].span_left
-        dict['time']=str(comments[i].created)
+        dict['id']=comments[i].Comment.id
+        dict['name']=comments[i].username
+        dict['value']=comments[i].Comment.value
+        dict['span_page']=str(comments[i].Comment.span_page)
+        # dict['span-top']=comments[i].Comment.span_top
+        # dict['span-left']=comments[i].Comment.span_left
+        dict["rect_x"] = comments[i].Comment.rect_x
+        dict["rect_y"] = comments[i].Comment.rect_y
+        dict["rect_w"] = comments[i].Comment.rect_w
+        dict["rect_h"] = comments[i].Comment.rect_h
+        dict['time']=str(comments[i].Comment.created)
         comments_list.append(dict)
-    #print(comments_list)
     comments_list=json.dumps(comments_list,ensure_ascii=False)
     if request.method=='POST':
         return comments_list
     else:
-        return 'get'
+        return 'only post request is available'
 
 
 
