@@ -1,7 +1,7 @@
 import React from 'react';
 import {css} from "@emotion/react";
 import {MemoryRouter, Route, Routes} from "react-router";
-import PdfViewPage from "./PdfView";
+import PdfViewPage from "./PdfViewPage";
 import PropTypes from "prop-types";
 
 export default {

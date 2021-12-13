@@ -33,7 +33,7 @@ function UserIconImage(props) {
 
 UserIconImage.propTypes = {
     label: PropTypes.oneOf(['basic']),
-    style: PropTypes.string,
+    style: PropTypes.object,
 }
 
 UserIconImage.defaultProps = {

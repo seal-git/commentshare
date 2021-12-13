@@ -56,9 +56,9 @@ function Comment(props) {
                 </div>
             </div>
             <div css={本文}>
-                {props.comment.comment}
+                {props.comment.value}
             </div>
-            <div css={時間}> 12:00 2021/11/28</div>
+            <div css={時間}> {props.comment.time} </div>
         </div>
     )
 }

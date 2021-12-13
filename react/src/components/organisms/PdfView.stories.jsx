@@ -3,7 +3,7 @@ import {css} from "@emotion/react";
 import {MemoryRouter, Route, Routes} from "react-router";
 import PropTypes from "prop-types";
 import PdfView from "./PdfView";
-import PdfListPage from "../pages/PdfList";
+import PdfListPage from "../pages/PdfListPage";
 
 export default {
     title: 'components/organisms/PdfView',

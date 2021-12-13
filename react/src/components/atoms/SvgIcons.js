@@ -77,7 +77,7 @@ SvgIcons.propTypes = {
         'notifications-gray',
         'direct-message-gray'
     ]),
-    style: PropTypes.string,
+    style: PropTypes.object,
 }
 
 SvgIcons.defaultProps = {

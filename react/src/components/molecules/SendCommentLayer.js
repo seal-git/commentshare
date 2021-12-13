@@ -2,6 +2,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import {Page, Document} from "react-pdf/dist/esm/entry.webpack";
 import {css} from "@emotion/react";
 import autosize from "autosize";
+import axios from 'axios';
+import PropTypes from "prop-types";
 
 /*
 コメントを送信するポップアップを表示するレイヤー
@@ -22,8 +24,8 @@ function SendCommentLayer(props) {
       }
     `;
 
-    if (props.formVisible === "visible") {
-        console.log("form visible", props.formX, props.formY)
+    if (props.canvasState === "form") {
+        // console.log("form visible", props.formX, props.formY)
         let textarea = document.getElementById("send-comment-textarea")
         if (textarea !== null) {
             textarea.focus({preventScroll: true});
@@ -31,6 +33,7 @@ function SendCommentLayer(props) {
         wrapperStyle = css`
           ${wrapperStyle};
           opacity: 1;
+          pointer-events: auto;
         `
     } else {
         let button = document.getElementById("send-comment-button")
@@ -45,15 +48,34 @@ function SendCommentLayer(props) {
         wrapperStyle = css`
           ${wrapperStyle};
           opacity: 0;
+          pointer-events: none;
         `
     }
 
     function onclick() {
         let comment = {
-            "rect": props.rect,
-            "comment": value.current.value
+            "pdf_id": props.pdfId,
+            "value": value.current.value,
+            "span_page": props.pageNumber,
+            "rect_x": props.rect.x,
+            "rect_y": props.rect.y,
+            "rect_w": props.rect.w,
+            "rect_h": props.rect.h,
         };
-        console.log("submit", comment);
+        axios.post('/api/add_comment', {data: comment})
+            .then(result => {
+                //送信成功時はコメントに時間を付けてcommentListを更新する
+                console.log(result["data"])
+                comment["time"] = result.data.time
+                console.log("submit", comment);
+                props.dispatch({
+                    type: "add",
+                    comment: comment
+                })
+            })
+            .catch(error => {
+                console.log('error')
+            })
         const canvas = document.getElementById("select-canvas");
         if (canvas !== null) {
             const canvas_ = canvas.getContext("2d");
@@ -64,11 +86,7 @@ function SendCommentLayer(props) {
                 canvas.clientHeight
             )
         }
-        props.dispatch({
-            type: "add",
-            comment: comment
-        })
-        props.setFormVisible("invisible");
+        props.setCanvasState("stop");
         value.current.value = "";
     }
 
@@ -125,6 +143,15 @@ function SendCommentLayer(props) {
     )
 }
 
-export default SendCommentLayer
+SendCommentLayer.propTypes = {
+    canvasState: PropTypes.string,
+    setCanvasState: PropTypes.func,
+    formX: PropTypes.number,
+    formY: PropTypes.number,
+    pdfId: PropTypes.string,
+    pageNumber: PropTypes.number,
+    rect: PropTypes.object,
+    dispatch: PropTypes.func,
+}
 
-;
+export default SendCommentLayer;

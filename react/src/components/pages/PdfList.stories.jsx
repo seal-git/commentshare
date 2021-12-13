@@ -1,7 +1,7 @@
 import React from 'react';
 import {css} from "@emotion/react";
 import {MemoryRouter} from "react-router";
-import PdfListPage from "./PdfList";
+import PdfListPage from "./PdfListPage";
 
 export default {
   title: 'components/pages/PdfList',

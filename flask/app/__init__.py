@@ -21,4 +21,3 @@ login_manager.login_message_category = 'info'
 import app.db_init
 import app.routes
 import app.models
-import app.views

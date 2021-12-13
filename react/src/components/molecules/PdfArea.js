@@ -57,7 +57,7 @@ function PdfArea(props) {
         <div css={wrapperStyle}>
             <div css={pdfStyle}>
                 <Document
-                    file={samplePDF}
+                    file={samplePDF} // TODO: サーバーから読み込む
                     options={{
                         cMapUrl: 'https://localhost/cmaps/',
                         cMapPacked: true,
@@ -70,6 +70,7 @@ function PdfArea(props) {
                         pageNumber={pageNumber}
                         pageHeight={pageHeight}
                         pageWidth={pageWidth}
+                        pdfId={props.pdfId}
                     />
                 </Document>
 
@@ -99,6 +100,7 @@ function PdfArea(props) {
 }
 PdfArea.propTypes = {
     sample: PropTypes.bool,
+    pdfId:PropTypes.string,
     style: PropTypes.string,
 }
 
