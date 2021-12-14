@@ -1,5 +1,6 @@
 import React from 'react';
 import {css} from "@emotion/react";
+import {Link} from "react-router-dom";
 import IconPanel from "../molecules/IconPanel";
 import Text from "../atoms/Text";
 import PropTypes from "prop-types";
@@ -14,22 +15,24 @@ function Header(props) {
     let wrapperStyle = css`
       height: 50px;
       width: 100%;
-      min-width: 750px;
+      min-width: 900px;
       display: flex;
-      background: ${props.sample===true?"#00ff00":"black"};
+      background: ${props.sample === true ? "#00ff00" : "black"};
     `;
     let leftWrapperStyle = css`
       display: flex;
-      flex: 1;
+      flex: 1 1 auto;
       gap: 20px;
-      background: ${props.sample===true?"#ff0000":"none"};
+      background: ${props.sample === true ? "#ff0000" : "none"};
     `;
     let rightWrapperStyle = css`
       display: flex;
+      width: auto;
+      flex: 0 0 auto;
       gap: 20px;
       margin: 5px 0 5px 0;
       padding-right: 20px;
-      background: ${props.sample===true?"#0000ff":"none"};
+      background: ${props.sample === true ? "#0000ff" : "none"};
     `;
     let textWrapperStyle = css`
       display: flex;
@@ -38,23 +41,27 @@ function Header(props) {
       height: 100%;
       padding-right: 30px;
       padding-left: 30px;
-      background: ${props.sample===true?"#00ffff":"none"};
+      background: ${props.sample === true ? "#00ffff" : "none"};
+      a{
+        text-decoration: none;
+      }
     `
     let textStyle = css`
       font-size: 1.5rem;
       color: white;
-      background: ${props.sample===true?"#ff00ff":"none"};
+      background: ${props.sample === true ? "#ff00ff" : "none"};
     `
     let iconStyle = css`
-      svg{
+      svg {
         padding: 2px;
         border: 1px solid gray;
         border-radius: 20px;
       }
-      background: ${props.sample===true?"#ffff00":"none"};
+
+      background: ${props.sample === true ? "#ffff00" : "none"};
     `
     let userIconStyle = css`
-      background: ${props.sample===true?"#ffff00":"none"};
+      background: ${props.sample === true ? "#ffff00" : "none"};
     `
     wrapperStyle = css`
       ${wrapperStyle};
@@ -64,11 +71,13 @@ function Header(props) {
         <div css={wrapperStyle}>
             <div css={leftWrapperStyle}>
                 <div css={textWrapperStyle}>
-                    <Text
-                        text={"Comment Share"}
-                        label={"nunuitosans-semibold-white"}
-                        style={textStyle}
-                    />
+                    <Link to={"/"}>
+                        <Text
+                            text={"Comment Share"}
+                            label={"nunuitosans-semibold-white"}
+                            style={textStyle}
+                        />
+                    </Link>
                 </div>
                 <IconPanel label="search" sample={props.sample}/>
                 <IconPanel label="upload" sample={props.sample}/>
