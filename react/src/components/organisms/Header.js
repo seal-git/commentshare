@@ -21,13 +21,13 @@ function Header(props) {
     `;
     let leftWrapperStyle = css`
       display: flex;
-      flex: 1 1 auto;
+      flex: 1;
       gap: 20px;
       background: ${props.sample === true ? "#ff0000" : "none"};
     `;
     let rightWrapperStyle = css`
       display: flex;
-      width: auto;
+      //display: inline-block;
       flex: 0 0 auto;
       gap: 20px;
       margin: 5px 0 5px 0;
@@ -57,7 +57,6 @@ function Header(props) {
         border: 1px solid gray;
         border-radius: 20px;
       }
-
       background: ${props.sample === true ? "#ffff00" : "none"};
     `
     let userIconStyle = css`

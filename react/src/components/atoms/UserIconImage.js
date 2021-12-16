@@ -7,25 +7,24 @@ import Image from '../sample-data/user-icon-image.png';
 
 
 function UserIconImage(props) {
-    let myStyle = css`
+    let wrapperStyle = css`
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       height: 100%;
-      img{
+      img {
+        display: block;
         height: 100%;
         width: auto;
       }
     `;
-    if (props.label === 'basic') {
-        myStyle = css`
-          ${myStyle};
-        `;
-    }
-    myStyle = css`
-      ${myStyle};
+    wrapperStyle = css`
+      ${wrapperStyle};
       ${props.style};
     `
 
     return (
-        <div css={myStyle}>
+        <div css={wrapperStyle}>
             <img src={Image} />
         </div>
     )
