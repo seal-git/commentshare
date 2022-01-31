@@ -3,6 +3,9 @@ import {Page, Document} from "react-pdf/dist/esm/entry.webpack";
 import {css} from "@emotion/react";
 import SendCommentLayer from "./SendCommentLayer";
 import ShowCommentLayer from "./ShowCommentLayer";
+import PropTypes from "prop-types";
+import PdfArea from "./PdfArea";
+import axios from "axios";
 
 
 /*
@@ -12,12 +15,26 @@ pdf-areaにコメントをオーバーレイするコンポーネント
 //仮のコメントリスト
 const tmpCommentList = [
     {
-        comment: "sss",
-        rect: {x: 144.5, y: 129.5, w: 59.5, h: 48.5}
+        id: 1,
+        name: "test_user",
+        value: "ff", //サーバー側の初期値は"ss"
+        span_page: 1,
+        rect_x: 144.5,
+        rect_y: 129.5,
+        rect_w: 59.5,
+        rect_h: 48.5,
+        time: "2021-12-11 08:00:00"
     },
     {
-        comment: "aaa",
-        rect: {x: 184.5, y: 116.5, w: 77.5, h: 87.5}
+        id: 2,
+        name: "test_user",
+        value: "fff", //サーバー側の初期値は"ff"
+        span_page: 1,
+        rect_x: 184.5,
+        rect_y: 116.5,
+        rect_w: 77.5,
+        rect_h: 87.5,
+        time: "2021-12-11 09:00:00"
     },
 
 ];
@@ -62,34 +79,64 @@ function PdfComment(props) {
     const BasicStyle = css`
       ${TemplateStyle};
     `
-    const [formVisible, setFormVisible] = useState("invisible")
-    const [popupVisible, setPopupVisible] = useState(false)
-    const [mouseX, setMouseX] = useState(null)
-    const [mouseY, setMouseY] = useState(null)
+    const [canvasState, setCanvasState] = useState("stop")
+    /*
+    stop: マウスが停止している状態。何のボタンも押されていない。ポップアップが出る。
+    move: マウスが動いている状態。何のボタンも押されていない。
+    mousedown: マウスのボタンが押された状態。
+    drag: ボタンが押された状態でマウスが動いている状態。描画モードになる。
+    form: コメント入力モード。描画モードが終わるとこのモードになる。
+     */
+    // const [mouseX, setMouseX] = useState(null)
+    // const [mouseY, setMouseY] = useState(null)
     const [commentList, dispatch] = useReducer(reducerFunc, [])
     const mousedown = useRef(false)
+    const mouseX = useRef(null)
+    const mouseY = useRef(null)
     const startX = useRef(null)
     const startY = useRef(null)
     const formX = useRef(-1000) //コメント送信フォームの表示位置x
     const formY = useRef(-1000) //コメント送信フォームの表示位置y
-    // const mouseX = useRef(null)
-    // const mouseY = useRef(null)
     const rect = useRef({
         "x": null,
         "y": null,
         "w": null,
         "h": null,
-    })
+    }) //描画中の四角形の情報
+
     useEffect(() => {
-        tmpCommentList.forEach(function(comment_){
+        // 初回描画時にコメントをロードする
+        tmpCommentList.forEach(function (comment_) {
             dispatch({
                 type: "add",
                 comment: comment_
             })
         })
+        let data = {
+            pdf_id: props.pdfId
+        }
+        axios.post('/api/get_comment', {data: data})
+            .then(result => {
+                console.log(result["data"])
+                result["data"].forEach(function (comment_) {
+                    dispatch({
+                        type: "add",
+                        comment: comment_
+                    })
+                })
+            })
+            .catch(error => {
+                console.log('error')
+            })
     }, [])
     useEffect(() => {
+        console.log(canvasState)
+    }, [canvasState])
+    useEffect(() => {
+        // commentListの更新時に走る関数
+        // コメント部分をハイライトする
         const canvas = document.getElementById("highlight-canvas");
+        console.log("hightlight", canvas, commentList)
         const context = canvas.getContext("2d");
         context.fillStyle = "rgba(0,0,255,0.1)"
         context.clearRect(
@@ -99,14 +146,18 @@ function PdfComment(props) {
             canvas.clientHeight
         )
         commentList.forEach((comment) => {
-            let rect = comment.rect;
-            context.fillRect(rect.x, rect.y, rect.w, rect.h);
+            context.fillRect(
+                comment.rect_x,
+                comment.rect_y,
+                comment.rect_w,
+                comment.rect_h);
         })
-    },)
+
+    }, [commentList])
 
     function reducerFunc(state, action) {
         if (action.type === "add") {
-            console.log([...state, action.comment])
+            // console.log([...state, action.comment])
             return [...state, action.comment]
         } else {
             throw `Invalid type:${action.type}`
@@ -114,17 +165,17 @@ function PdfComment(props) {
     }
 
     function draw(event) {
-        //マウスが動いてるときに描画する
-        setMouseX(event.offsetX);
-        setMouseY(event.offsetY);
+        //マウスを押しながら動かしたときに描画する
+        mouseX.current = event.offsetX;
+        mouseY.current = event.offsetY;
         if (mousedown.current === true) {
             //ボタン押下中は四角形の描画が走る
-            setPopupVisible(false)
+            setCanvasState("drag")
             const canvas = document.getElementById("select-canvas");
             const canvas_ = canvas.getContext("2d");
             // context.fillRect(event.pageX,event.pageY,30,30)
-            let canvasX = canvas.getClientRects()[0]["x"]
-            let canvasY = canvas.getClientRects()[0]["y"]
+            // let canvasX = canvas.getClientRects()[0]["x"]
+            // let canvasY = canvas.getClientRects()[0]["y"]
             // console.log(
             //     "onmousemove",
             //     event.offsetX,
@@ -143,18 +194,17 @@ function PdfComment(props) {
                 canvas.clientHeight
             )
             canvas_.strokeRect(
-                startX.current + 0.5,
+                startX.current + 0.5, // canvas上でボケないように0.5を足している
                 startY.current + 0.5,
                 event.offsetX - (startX.current + 0.5),
                 event.offsetY - (startY.current + 0.5)
             )
-            setFormVisible("moving");
         }
     }
 
     function onmousedown(event) {
         mousedown.current = true;
-        setFormVisible("invisible");
+        setCanvasState("mousedown");
         startX.current = event.nativeEvent.offsetX;
         startY.current = event.nativeEvent.offsetY;
         const canvas = document.getElementById("select-canvas");
@@ -200,27 +250,36 @@ function PdfComment(props) {
         formX.current = event.nativeEvent.offsetX
         formY.current = event.nativeEvent.offsetY
         mousedown.current = false
-        if (formVisible === "moving") {
-            setFormVisible("visible")
+        if (canvasState === "drag") {
+            setCanvasState("form")
             formX.current = event.nativeEvent.offsetX;
             formY.current = event.nativeEvent.offsetY;
         } else {
-            setFormVisible("invisible")
+            setCanvasState("stop")
         }
         console.log("onmouseup", event.nativeEvent.offsetX, event.nativeEvent.offsetY, canvas_x, canvas_y, mousedown.current)
     }
-    function popup(event){
-        //描画中でないならポップアップを表示する
-        if (mousedown.current !== true && formVisible!=="visible"){
-            setPopupVisible(true)
+
+    const timer = useRef(null);
+
+    function popup(event) {
+        //描画中でない時、マウスが0.25秒以上止まっていたらポップアップを表示する
+        if (canvasState === "stop") {
+            setCanvasState("move")
+        }
+        if (mousedown.current !== true
+            && canvasState === "move") {
+            clearTimeout(timer.current)
+            timer.current = setTimeout(() => {
+                setCanvasState("stop")
+            }, 250)
+
             let rect = document.getElementById("pdf-comment-wrapper").getBoundingClientRect()
             let pdfX = rect.left + window.pageXOffset;
             let pdfY = rect.top + window.pageYOffset;
-            setMouseX(event.nativeEvent.pageX - pdfX)
-            setMouseY(event.nativeEvent.pageY - pdfY)
+            mouseX.current = event.nativeEvent.pageX - pdfX;
+            mouseY.current = event.nativeEvent.pageY - pdfY;
             // console.log(mouseX, mouseY)
-        }else{
-            setPopupVisible(false)
         }
     }
 
@@ -251,27 +310,43 @@ function PdfComment(props) {
             </div>
             <div className={"send-comment-layer-wrapper"}>
                 <SendCommentLayer
-                    formVisible={formVisible}
+                    canvasState={canvasState}
+                    setCanvasState={setCanvasState}
                     formX={formX.current}
                     formY={formY.current}
                     rect={rect.current}
                     dispatch={dispatch}
-                    setFormVisible={setFormVisible}
+                    pageNumber={props.pageNumber}
+                    pdfId={props.pdfId}
                 />
             </div>
-            <div className={"show-comment-layer-wrapper"} onMouseMove={onmousemove}>
+            <div className={"show-comment-layer-wrapper"}>
                 <ShowCommentLayer
-                    popupVisible = {popupVisible}
-                    setPopupVisible = {setPopupVisible}
-                    mouseX = {mouseX}
-                    mouseY = {mouseY}
+                    canvasState={canvasState}
+                    setCanvasState={setCanvasState}
+                    mouseX={mouseX}
+                    mouseY={mouseY}
                     commentList={commentList}
+                    pageNumber={props.pageNumber}
                 />
             </div>
 
 
         </div>
     )
+}
+
+PdfComment.propTypes = {
+    sample: PropTypes.bool,
+    pdfId: PropTypes.string,
+    pageNumber: PropTypes.number,
+    pageHeight: PropTypes.number,
+    pageWidth: PropTypes.number,
+    style: PropTypes.string,
+}
+
+PdfComment.defaultProps = {
+    sample: false,
 }
 
 export default PdfComment

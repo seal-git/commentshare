@@ -3,29 +3,28 @@ import samplePDF from "../sample-data/samplepdf.pdf";
 import {Page, Document} from "react-pdf/dist/esm/entry.webpack";
 import {css} from "@emotion/react";
 import PdfComment from "./PdfComment";
+import PropTypes from "prop-types";
+import News from "./News";
 
-const TemplateStyle = css`
-  background: coral;
-  padding: 10px;
-
-  .pdf-area {
-    position: relative;
-  }
-
-  .react-pdf__Page__textContent {
-    user-select: none;
-  }
-
-  canvas {
-    margin: auto;
-  }
-`
-
-const BasicStyle = css`
-  ${TemplateStyle};
-`
 
 function PdfArea(props) {
+    let wrapperStyle = css`
+      background: ${props.sample===true?"#bf0000":"#bfbfbf"};
+      padding: 10px;
+    `
+    let pdfStyle = css`
+      position: relative;
+      .react-pdf__Page__textContent {
+        user-select: none;
+      }
+      canvas {
+        margin: auto;
+      }
+    `
+    let pageNavStyle = css`
+      text-align: center;
+    `
+
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageHeight, setPageHeight] = useState(null);
@@ -55,12 +54,10 @@ function PdfArea(props) {
 
 
     return (
-        <div className={'content-area'} css={BasicStyle}>
-            <div className={'pdf-area'}
-            >
-
+        <div css={wrapperStyle}>
+            <div css={pdfStyle}>
                 <Document
-                    file={samplePDF}
+                    file={samplePDF} // TODO: サーバーから読み込む
                     options={{
                         cMapUrl: 'https://commentshare.work/cmaps/',
                         cMapPacked: true,
@@ -69,15 +66,16 @@ function PdfArea(props) {
                 >
                     <Page pageNumber={pageNumber}>
                     </Page>
-                        <PdfComment
-                            pageNumber={pageNumber}
-                            pageHeight={pageHeight}
-                            pageWidth={pageWidth}
-                        />
+                    <PdfComment
+                        pageNumber={pageNumber}
+                        pageHeight={pageHeight}
+                        pageWidth={pageWidth}
+                        pdfId={props.pdfId}
+                    />
                 </Document>
 
             </div>
-            <div>
+            <div css={pageNavStyle}>
                 <p>
                     Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
                 </p>
@@ -99,6 +97,15 @@ function PdfArea(props) {
         </div>
 
     )
+}
+PdfArea.propTypes = {
+    sample: PropTypes.bool,
+    pdfId:PropTypes.string,
+    style: PropTypes.string,
+}
+
+PdfArea.defaultProps = {
+    sample: false,
 }
 
 export default PdfArea;

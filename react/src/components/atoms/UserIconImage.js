@@ -5,18 +5,19 @@ import Image from '../sample-data/user-icon-image.png';
 
 //TODO: Iconコンポーネントにまとめる
 
-const TemplateStyle = css`
-  height: 100%;
-`
-
-const BasicStyle = css`
-  ${TemplateStyle};
-`;
 
 function UserIconImage(props) {
-    let myStyle;
+    let myStyle = css`
+      height: 100%;
+      img{
+        height: 100%;
+        width: auto;
+      }
+    `;
     if (props.label === 'basic') {
-        myStyle = BasicStyle;
+        myStyle = css`
+          ${myStyle};
+        `;
     }
     myStyle = css`
       ${myStyle};
@@ -32,7 +33,7 @@ function UserIconImage(props) {
 
 UserIconImage.propTypes = {
     label: PropTypes.oneOf(['basic']),
-    style: PropTypes.string,
+    style: PropTypes.object,
 }
 
 UserIconImage.defaultProps = {

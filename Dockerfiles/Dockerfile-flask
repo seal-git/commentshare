@@ -7,6 +7,8 @@ COPY flask/ /workspace/
 RUN apt-get update &&\
  pip install --upgrade pip &&\
  pip install pipenv &&\
- pip install --upgrade setuptools
+ pip install --upgrade setuptools &&\
+ pipenv install &&\
+ pipenv install --system
 
-CMD pipenv install && pipenv install --system && python run.py
+CMD python run.py

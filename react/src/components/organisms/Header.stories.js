@@ -7,15 +7,7 @@ export default {
   component: Header,
 };
 const Template = (args) => <Header {...args} />;
-export const Sample = Template.bind({});
-Sample.args = {
-  label: 'sample',
-  style: css`
-  `
-}
 export const Basic = Template.bind({});
 Basic.args = {
-  label: 'basic',
-  style: css`
-  `
+  sample: false,
 }
